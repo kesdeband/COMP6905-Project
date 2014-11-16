@@ -41,11 +41,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'aki_bakery_services';
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['hostname'] = 'go1c60jaun.database.windows.net,1433';
+$db['default']['username'] = 'cloud@go1c60jaun';
+$db['default']['password'] = 'Google25';
+$db['default']['database'] = 'votssqldb';
+$db['default']['dbdriver'] = 'sqlsrv';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
