@@ -26,6 +26,8 @@ class Example extends REST_Controller
 	
 	function __construct() {
         parent::__construct();
+
+        $this->load->model('Customers_model', '', TRUE);
 		
 		// Array containing data for rest service execution
         $this->users = array(
@@ -39,8 +41,12 @@ class Example extends REST_Controller
 	function user_get()
     {
 
+    	$value = $this->Customers_model->get_all_rows();
+
+    	$this->response(array('success' => $value), 200); 
+
     	// Create table REST proxy.
-	$connectionString = "DefaultEndpointsProtocol=https;AccountName=bitnamieastus5213449027;AccountKey=6B6j0Nw7g/cMNNWhjwUrVNVJU3jwzI2t9twlrMtArNBstn9ofpzGVq+hKLn0jE7T6Ntq+kPwaOVqpkPD9aLuOQ==";
+	/*$connectionString = "DefaultEndpointsProtocol=https;AccountName=bitnamieastus5213449027;AccountKey=6B6j0Nw7g/cMNNWhjwUrVNVJU3jwzI2t9twlrMtArNBstn9ofpzGVq+hKLn0jE7T6Ntq+kPwaOVqpkPD9aLuOQ==";
 	$tableRestProxy = ServicesBuilder::getInstance()->createTableService($connectionString);
 
 	try {
@@ -53,7 +59,7 @@ class Example extends REST_Controller
 		// Handle exception based on error codes and messages.
 		// Error codes and messages can be found here: 
 		// http://msdn.microsoft.com/en-us/library/windowsazure/dd179438.aspx
-	}
+	}*/
     	
         /*if(!$this->get('id'))
         {

@@ -12,9 +12,10 @@ class Customers_model extends CI_Model {
     function get_all_rows() {
         /*$sql = "SELECT * FROM users";
         $query = $this->db->query($sql);*/
-        $query = $this->db->get('users');
+        $query = $this->db->get('tenant');
 
-        return $query->num_rows();
+        //return $query->num_rows();
+        return $query->row();
     }
 
     function customer_exists($username) {

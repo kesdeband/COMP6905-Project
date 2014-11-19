@@ -15,11 +15,19 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'LocalStorageModule'
   ])
+  .config(['localStorageServiceProvider', function(localStorageServiceProvider){
+    localStorageServiceProvider.setPrefix('vots');
+  }])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
+        templateUrl: 'views/signin.html',
+        controller: 'SigninCtrl'
+      })
+      .when('/main', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })

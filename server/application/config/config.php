@@ -1,11 +1,10 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /*
 |--------------------------------------------------------------------------
-| Aki Bakery Services Global variables
+| VOTS Global variables
 |--------------------------------------------------------------------------
 */
-define('AkiService', 'http://64.28.139.185/AkiBakeryServices/wsdl/');
-define('LICENCE', 'AkiProData');
+define('SecurityKey', '78BGDS#%%^^((&'); //Security Key
 
 /*
 |--------------------------------------------------------------------------
