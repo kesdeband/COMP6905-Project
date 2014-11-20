@@ -12,7 +12,8 @@ angular.module('cloudApp')
     // Service logic
     // ...
 
-    var api = 'http://vots.azurewebsites.net/cloud/server/index.php/api';
+    //var api = 'http://localhost/cloud/server/index.php/api';
+    var api = 'http://vots.azurewebsites.net/server/index.php/api';
 
     // Public API here
     return {
