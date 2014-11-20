@@ -8,7 +8,7 @@ class Tenants extends REST_Controller {
 	function __construct() {
         parent::__construct();
         $this->load->model('Tenants_model', '', TRUE);
-        $this->load->helper('cookie');
+        //$this->load->helper('cookie');
     }
 
 	/*

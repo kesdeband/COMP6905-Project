@@ -4,7 +4,16 @@
 | VOTS Global variables
 |--------------------------------------------------------------------------
 */
+
 define('SecurityKey', '78BGDS#%%^^((&'); //Security Key
+
+/*
+|--------------------------------------------------------------------------
+| VOTS Table Storage Connection Information
+|--------------------------------------------------------------------------
+*/
+
+define('connectionTable', 'DefaultEndpointsProtocol=https;AccountName=vots;AccountKey=lfwTOPPPrYCv2FRGh6T7UGDy/rQWT9Hh6MY8gd8/Hp2dvj7ypJbaJ683r5o/xGiJ93CnbQzWWxFW3Rh7ssmw4A==');
 
 /*
 |--------------------------------------------------------------------------
