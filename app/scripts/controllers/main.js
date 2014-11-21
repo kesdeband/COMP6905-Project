@@ -21,6 +21,7 @@ angular.module('cloudApp')
 	$scope.retrieveVehicleInfo = function(registrationNo) {
 
 	  $scope.vehicle.searching = true;
+	  $scope.vehicle.showtable = false;
 	  var regno = encodeURIComponent(registrationNo);
 	  vehicle.getDetails(regno)
 	    .then(function(success) {

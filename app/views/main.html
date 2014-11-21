@@ -14,21 +14,23 @@
     <img src="images/yeoman.png" alt="I'm Yeoman"><br>
     Always a pleasure scaffolding your apps.
   </p>-->
-<form role="form">
+<form role="form" ng-submit="retrieveVehicleInfo(vehicle.registrationNo)">
   <div class="jumbotron">
     <div class="form-group">
       <input type="text" class="form-control" ng-model="vehicle.registrationNo" placeholder="Registration Number (License Plate)" autofocus required>
       <br>
     </div>
-    <button class="btn btn-success" ng-click="retrieveVehicleInfo(vehicle.registrationNo)">Search <span class="glyphicon glyphicon-search"></span></button>
+    <button class="btn btn-success">Search <span class="glyphicon glyphicon-search"></span></button>
   </div>
 </form>
 
-<div ng-if="vehicle.searching">
+<div ng-if="vehicle.searching" class="text-center">
   <img ng-src="images/loading.gif" alt="loading ...">
+  <br>
+  <br>
 </div>
 
-  <div class="row marketing" ng-if="vehicle.showtable">
+  <div class="row" ng-if="vehicle.showtable">
     <table class="table table-striped table-hover table-condensed">
       <tbody>
         <tr>
@@ -52,8 +54,6 @@
     </table>
   </div>
 
-  <div class="footer">
-    <p>COMP 6905 - Cloud Computing Project &copy; 2014</p>
-  </div>
+  <div ng-include='"views/footer.html"'></div>
 
 </div>
