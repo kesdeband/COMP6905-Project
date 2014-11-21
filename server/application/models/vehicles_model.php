@@ -31,11 +31,12 @@ class Vehicles_model extends CI_Model {
 		}
 		if($result) {
             $entity = $result->getEntity();
-            return new ArrayObject(array('chassisNo' => $entity->getProperty("Color")->getValue(),
-                         'color' => $entity->getProperty("Make")->getValue(),
-                         'make' => $entity->getProperty("Model")->getValue(),
+            return array('chassisno' => $entity->getProperty("ChassisNumber")->getValue(),
+                         'color' => $entity->getProperty("Color")->getValue(),
+                         'make' => $entity->getProperty("Make")->getValue(),
+                         'model' => $entity->getProperty("Model")->getValue(),
                          'owner' => $entity->getProperty("Owner")->getValue(),
-                         'year' => $entity->getProperty("Year")->getValue()));
+                         'year' => $entity->getProperty("Year")->getValue());
         //return $result->getEntity()->getProperty("Color")->getValue();
 		//return $entity->getPartitionKey();
 		//return $result->getEntity()->getPartitionKey();
