@@ -23,7 +23,7 @@ class Tenants_model extends CI_Model {
     }
 
     //Create a new tenant
-    function create_tenant($tenantid, $fname, $lname, $company, $username, $password) {
+    function create_tenant($tenantid, $fname, $lname, $company, $username, $password, $dor, $industry, $country) {
         $result = FALSE;
 
         //Generate user's salt
@@ -40,6 +40,9 @@ class Tenants_model extends CI_Model {
         $row['Company'] = $company;
         $row['Username'] = $username;
         $row['Password'] = $password;
+        $row['DOR'] = $dor; //Date of Registration
+        $row['Industry'] = $industry;
+        $row['Country'] = $country;
         $row['TenantSalt'] = $tenant_salt;
         $query = $this->db->insert('tenant', $row);
 
@@ -102,6 +105,22 @@ class Tenants_model extends CI_Model {
         }
 
         return $results;
+    }
+
+    //User logout
+    function logout_tenant($token) 
+    {
+
+        $result = FALSE;
+
+        //Update log table status to closed
+        $this->db->where('token', $token);
+        $data = array('status' => 'closed');
+        $query = $this->db->update('TenantLog', $data); //set tenant log status to closed
+
+        if($query)  $result = TRUE;
+
+        return $result;
     }
 
     //Check user log status

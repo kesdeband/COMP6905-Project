@@ -9,6 +9,7 @@
  */
 angular.module('cloudApp')
   .controller('SigninCtrl', function ($scope, $location, $cookieStore, localStorageService, tenant) {
+    
     //Get user login status
   	$scope.loggedIn = localStorageService.get('loggedIn') || false;
 
@@ -43,7 +44,7 @@ angular.module('cloudApp')
             //Store user's token and related login information in local storage
             localStorageService.add('token', success.data.token);
             localStorageService.add('user', success.data.fname);
-            localStorageService.add('userid', success.data.userid);
+            localStorageService.add('tenantid', success.data.tenantid);
             localStorageService.add('loggedIn', true);
             $location.path('/main').replace();
             

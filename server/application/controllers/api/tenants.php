@@ -23,11 +23,12 @@ class Tenants extends REST_Controller {
 	* HTTP METHOD: POST
 	* MODEL FUNCTION: create_tenant($tenantid, $fname, $lname, $company, $username, $password)
 	* URL: localhost/cloud/server/index.php/api/tenants/account
-	* SAMPLE DATA: {"fname":"Keston","lname":"Joseph","company":"Petrotrin","username":"Kes","password":"Kes"}
+	* SAMPLE DATA: {"fname":"Keston","lname":"Joseph","username":"Kes","password":"Kes","country":"Aruba","industry":"Security","company":"Petrotrin"}
 	*/
 	function account_post() 
 	{
-		if(!$this->post('fname') || !$this->post('lname') || !$this->post('company') || !$this->post('username') || !$this->post('password')) {
+		if(!$this->post('fname') || !$this->post('lname') || !$this->post('username') || !$this->post('password') ||
+		   !$this->post('country') || !$this->post('industry') || !$this->post('company')) {
 			$this->response("Username or password missing", 400);
 		}
 
@@ -38,13 +39,17 @@ class Tenants extends REST_Controller {
 		}
 		else {
 			$tenantid = strtotime("now");
+			$dor = date("Y-m-d");
 			$created = $this->Tenants_model->create_tenant(
 					$tenantid,
 					$this->post('fname'),
 					$this->post('lname'),
 					$this->post('company'),
 					$this->post('username'),
-					$this->post('password'));
+					$this->post('password'),
+					$dor,
+					$this->post('industry'),
+					$this->post('country'));
 
 			if ($created) //Registration successful, user created
 			{
@@ -86,5 +91,36 @@ class Tenants extends REST_Controller {
 		else {
 			$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);
 		} 
+	}
+
+
+	/**
+	* CRUD: account
+	* HTTP METHOD: PUT
+	* MODEL FUNCTION: logout_tenant($token)
+	* URL: localhost/cloud/server/index.php/api/tenants/account
+	* SAMPLE DATA: {"token":"e898e568c22fcddaffa5bfb81f186086af053d7"}
+	*/
+	function account_put()
+	{
+		if($this->put('token')) {
+
+			try {
+				$logout = $this->Tenants_model->logout_tenant($this->put('token'));
+			}
+			catch(Exception $e) {
+				echo "Caught exception: ",  $e->getMessage(), "<br>";
+			}
+
+			if($logout) {
+				$this->response(array('logout' => $logout), 200);
+			}
+			else {
+				$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);
+			}
+		}
+		else {
+			$this->response(array('success'=>false, 'error' => 'User not logged-in!'), 400);
+		}
 	}
 }
