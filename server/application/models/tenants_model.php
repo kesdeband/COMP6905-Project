@@ -10,20 +10,32 @@ class Tenants_model extends CI_Model {
     }
 
 
-    function tenant_exists($username) {
+    function tenant_exists($username) { //Tenant exist
         $result = FALSE;
 
         //Check for user in database
         if($username)
         {
-            $query = $this->db->get_where('tenant', array('username' => $username));
+            $query = $this->db->get_where('Tenant', array('Username' => $username));
+            if($this->get_db_data($query)) $result = TRUE;
+        }
+        return $result;
+    }
+
+    function company_exists($email) { //Company Exist
+        $result = FALSE;
+
+        //Check for user in database
+        if($email)
+        {
+            $query = $this->db->get_where('Company', array('Email' => $email));
             if($this->get_db_data($query)) $result = TRUE;
         }
         return $result;
     }
 
     //Create a new tenant
-    function create_tenant($tenantid, $fname, $lname, $company, $username, $password, $dor, $industry, $country) {
+    function create_tenant($tenantid, $fname, $lname, $orgid, $username, $password, $dor, $country) {
         $result = FALSE;
 
         //Generate user's salt
@@ -37,14 +49,31 @@ class Tenants_model extends CI_Model {
         $row['TenantID'] = $tenantid;
         $row['FirstName'] = $fname;
         $row['LastName'] = $lname;
-        $row['Company'] = $company;
+        $row['OrgID'] = $orgid;
         $row['Username'] = $username;
         $row['Password'] = $password;
         $row['DOR'] = $dor; //Date of Registration
-        $row['Industry'] = $industry;
         $row['Country'] = $country;
         $row['TenantSalt'] = $tenant_salt;
         $query = $this->db->insert('tenant', $row);
+
+        if($query) $result = TRUE;
+
+        return $result;
+    }
+
+    //Create new organization tenant
+    function create_org_tenant($orgid, $orgname, $email, $industry, $numusers, $dor) {
+        $result = FALSE;
+
+        //Add records to the database
+        $row['OrgID'] = $orgid;
+        $row['OrgName'] = $orgname;
+        $row['Email'] = $email;
+        $row['Industry'] = $industry;
+        $row['NumUsers'] = $numusers;
+        $row['DOR'] = $dor; //Date of Registration
+        $query = $this->db->insert('Company', $row);
 
         if($query) $result = TRUE;
 
@@ -68,6 +97,8 @@ class Tenants_model extends CI_Model {
             $results['fname'] = $query->row()->FirstName;
             // Get user's id
             $results['tenantid'] = $query->row()->TenantID;
+            //Get user type
+            $results['usertype'] = $this->retrieve_usertype($username);
 
             //Compute hash password
             $password_hash = $query->row()->TenantSalt . $password;
@@ -123,6 +154,19 @@ class Tenants_model extends CI_Model {
         return $result;
     }
 
+    private function retrieve_usertype($username) {
+        $results = 'Basic';
+        $domain = explode("@", $username);
+        $domain = $domain[1];
+        //echo $domain;
+        // Get user login data
+        $this->db->select('Industry');
+        $this->db->like('Email', $domain); 
+        $query = $this->db->get('Company');
+        if($query->num_rows() > 0) $results = $query->row()->Industry;
+        return $results;
+    }
+
     //Check user log status
     private function check_tenant_log_status($tenantid) 
     {
@@ -165,7 +209,9 @@ class Tenants_model extends CI_Model {
     private function get_db_data($query)
     {
         //echo $query->num_rows;
-        return ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+        //return ($query->num_rows() > 0) ? $query->result_array() : FALSE;
+        return ($query->num_rows() > 0);
+
     }
 
 }

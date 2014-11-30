@@ -21,18 +21,20 @@ angular.module('cloudApp')
   		
 	    $scope.vehicle = {
 	    	registrationNo : null,
+	    	country : '',
 	    	details : null,
 	    	showtable : false,
-	      	searching : false
+	      	searching : false,
+	      	user : localStorageService.get('user')
 	    };
 
 	    //Function to retrieve vehilce information from backend
-		$scope.retrieveVehicleInfo = function(registrationNo) {
+		$scope.retrieveVehicleInfo = function() {
 
 		  $scope.vehicle.searching = true;
 		  $scope.vehicle.showtable = false;
-		  var regno = encodeURIComponent(registrationNo);
-		  vehicle.getDetails(regno)
+		  var regno = encodeURIComponent($scope.vehicle.registrationNo);
+		  vehicle.getDetails(regno, $scope.vehicle.country)
 		    .then(function(success) {
 			  console.dir(success);
 			  $scope.vehicle.searching = false;

@@ -10,7 +10,6 @@
 angular.module('cloudApp')
   .controller('SignupCtrl', function ($scope, $location, $cookieStore, localStorageService, tenant) {
 
-    
   	//Get user login status
   	$scope.loggedIn = localStorageService.get('loggedIn') || false;
 
@@ -27,27 +26,54 @@ angular.module('cloudApp')
           country : '',
           industry : '',
       		service : 'B',
-          company : ''
+          company : '',
+          orgid : '',
+          numusers : '',
+          orgcode : '',
+          orgcreated : '',
+          processing : false
    	 	};
    	}
 
-   	//Registration function
-	$scope.signUp = function() {
+   	//Registration function tenant
+	  $scope.signUp = function() {
 
-    if($scope.register.company === '') { $scope.register.company = 'None'; }
-    if($scope.register.industry === '') { $scope.register.industry = 'None'; }
+      $scope.register.processing = true;
+      if($scope.register.service === 'B') {
+        $scope.register.orgcreated = false;
+        if($scope.register.orgid === '') { $scope.register.orgid = -1; }
 
-    //console.debug($scope.register.country);
+        //if($scope.register.industry === '') { $scope.register.industry = 'None'; }
+        //console.debug($scope.register.country);
 
-		tenant.register($scope.register.fname, $scope.register.lname, $scope.register.username, $scope.register.password, 
-			$scope.register.country, $scope.register.industry, $scope.register.company)
+        tenant.register($scope.register.fname, $scope.register.lname, $scope.register.orgid, $scope.register.username, $scope.register.password,
+          $scope.register.country)
           .then(function(success) {
             if(success.data.created) { //Account successfully created
+              $scope.register.processing = false;
               $location.path('/signin').replace(); //Redirect user to sign-in page
             }
           }, function(error) {
-          	console.error(error);
+            console.error(error);
         });
-	};
+      }
+      else {
+
+        tenant.registerCompany($scope.register.company, $scope.register.username, $scope.register.industry, $scope.register.numusers)
+          .then(function(success) {
+            if(success.data.created) { //Account successfully created
+              //$location.path('/signin').replace(); //Redirect user to sign-in page
+              $scope.register.processing = false;
+              $scope.register.username = '';
+              $scope.register.service = 'B';
+              $scope.register.orgcode = success.data.key;
+              $scope.register.orgcreated = success.data.created;
+            }
+          }, function(error) {
+            console.error(error);
+        });
+      }
+      
+	  };
 
   });

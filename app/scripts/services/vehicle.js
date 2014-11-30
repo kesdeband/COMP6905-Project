@@ -8,20 +8,23 @@
  * Factory in the cloudApp.
  */
 angular.module('cloudApp')
-  .factory('vehicle', function ($http, $q, api) {
+  .factory('vehicle', function ($http, $q, localStorageService, api) {
     // Service logic
     // ...
 
     var uri = api.url(); //get url from factory api
 
-    var vehicleInformation = function(registrationNo) {
+    var vehicleInformation = function(registrationNo, country) {
       var deferred = $q.defer();
+      var usertype = retrieveUserType();
 
       //console.debug(registrationNo);
 
       $http.get(uri + '/vehicle/details/', {
         params: {
-          regno : registrationNo
+          regno : registrationNo,
+          country : country,
+          usertype : usertype
         }
       })
       .then(function (success) {
@@ -34,10 +37,19 @@ angular.module('cloudApp')
       return deferred.promise;
     };
 
+    var retrieveUserType = function() {
+      var usertype;
+
+      if (localStorageService.get('usertype') !== false) {
+        usertype = localStorageService.get('usertype');
+      }
+      return usertype;
+    };
+
     // Public API here
     return {
-      getDetails: function (registrationNo) {
-        return vehicleInformation(registrationNo);
+      getDetails: function (registrationNo, country, usertype) {
+        return vehicleInformation(registrationNo, country, usertype);
       }
     };
   });

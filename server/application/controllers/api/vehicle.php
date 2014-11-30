@@ -21,18 +21,18 @@ class Vehicle extends REST_Controller {
 	/**
 	* CRUD: detail
 	* HTTP METHOD: GET
-	* MODEL FUNCTION: retrieve_vehicle_info($registrationNo)
-	* URL: localhost/cloud/server/index.php/api/vehicle/details/regno/<regno>
+	* MODEL FUNCTION: retrieve_vehicle_info($registrationNo, $country)
+	* URL: localhost/cloud/server/index.php/api/vehicle/details/regno/<regno>/country/<country>/usertype/<usertype>
 	* SAMPLE DATA: N/A
 	*/
 	function details_get() 
 	{
-		if(!$this->get('regno')) {
-			$this->response(array('success' => false, 'error' => 'Invalid Vehicle Registration No.'), 400);
+		if(!$this->get('regno') || !$this->get('country') || !$this->get('usertype')) {
+			$this->response(array('success' => false, 'error' => 'Invalid Vehicle Registration No./Country'), 400);
 		}
 
 		try {
-			$vehicle = $this->Vehicles_model->retrieve_vehicle_info($this->get('regno'));
+			$vehicle = $this->Vehicles_model->retrieve_vehicle_info($this->get('regno'), $this->get('country'), $this->get('usertype'));
 		}
 		catch(Exception $e) {
 			echo "Caught exception: ",  $e->getMessage(), "<br>";

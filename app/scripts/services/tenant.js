@@ -14,17 +14,35 @@ angular.module('cloudApp')
 
     var uri = api.url(); //get url from factory api
 
-    var signUp = function(fname, lname, username, password, country, industry, company) {
+    var signUp = function(fname, lname, orgid, username, password, country) {
       var deferred = $q.defer();
 
       $http.post(uri + '/tenants/account/', {
         fname : fname,
         lname : lname,
+        orgid : orgid,
         username : username,
         password : password,
-        country: country,
-        industry: industry,
-        company: company
+        country: country
+      })
+      .then(function (success) {
+        console.dir(success);
+        deferred.resolve(success);
+      }, function(error) {
+        console.dir(error);
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    };
+
+    var signUpCompany = function(orgname, email, industry, numusers) {
+      var deferred = $q.defer();
+
+      $http.post(uri + '/tenants/company/', {
+        orgname : orgname,
+        email : email,
+        industry : industry,
+        numusers : numusers
       })
       .then(function (success) {
         console.dir(success);
@@ -92,8 +110,11 @@ angular.module('cloudApp')
       authenticate: function (username, password) {
         return logIn(username, password);
       },
-      register: function (fname, lname, username, password, country, industry, company) {
-        return signUp(fname, lname, username, password, country, industry, company);
+      register: function (fname, lname, orgid, username, password, country) {
+        return signUp(fname, lname, orgid, username, password, country);
+      },
+      registerCompany: function (orgname, email, industry, numusers) {
+        return signUpCompany(orgname, email, industry, numusers);
       },
       logout: function() {
         return logOut();

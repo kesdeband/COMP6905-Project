@@ -22,16 +22,18 @@ angular.module('cloudApp')
       		username : null,
       		password : null,
       		remember : false,
+          processing : false
     	};
   	}
 
   	//Function to sign in
   	$scope.signIn = function() {
+      $scope.user.processing = true;
   		tenant.authenticate($scope.user.username, $scope.user.password)
     	  .then(function(success) {
     	  	console.dir(success.data);
     	  	if(success.data.token !== -1 && success.data.token !== 0) {
-  		      
+  		      $scope.user.processing = false;
             //Remember user credentials if option was selected
             if($scope.user.remember) {
               $cookieStore.put('username', $scope.user.username);
@@ -45,6 +47,7 @@ angular.module('cloudApp')
             localStorageService.add('token', success.data.token);
             localStorageService.add('user', success.data.fname);
             localStorageService.add('tenantid', success.data.tenantid);
+            localStorageService.add('usertype', success.data.usertype);
             localStorageService.add('loggedIn', true);
             $location.path('/main').replace();
             

@@ -1,8 +1,15 @@
+<div ng-include='"views/header.html"'></div>
+<br>
+<br>
+<br>
 <div class="container">
+  <div ng-if="user.processing" class="text-center" style="padding-bottom:15px;">
+    <img ng-src="images/processing.gif" alt="processing ...">
+  </div>
   <div class="sign-in">
     <img class="profile-img" ng-src="images/photo.png" alt="Login Photo">
     <form class="form-signin" role="form" ng-submit="signIn()">
-      <h2 class="form-signin-heading">Please Sign-In</h2>
+      <h3 class="form-signin-heading">Please Sign-In</h3>
       <input type="text" id="inputEmail" class="form-control" ng-model="user.username" placeholder="Email" required autofocus>
       <br>
       <input type="password" id="inputPassword" class="form-control" ng-model="user.password" placeholder="Password" required>
@@ -16,7 +23,7 @@
     </form>
     <a href="#/signup" class="text-center new-account">Create an account </a>
   </div>
-  <br>
-  <br>
-  <div ng-include='"views/footer.html"'></div>
 </div>
+<br>
+<br>
+<div ng-include='"views/footer.html"'></div>

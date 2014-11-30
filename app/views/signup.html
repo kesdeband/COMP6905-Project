@@ -1,8 +1,19 @@
-<div class="container" id="wrap">
+<div ng-include='"views/header.html"'></div>
+<br>
+<br>
+<br>
+<div class="container">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <form accept-charset="utf-8" class="form" role="form" ng-submit="signUp()">
         <legend>Sign Up</legend>
+        <div ng-if="register.processing" class="text-center" style="padding-bottom:15px;">
+          <img ng-src="images/processing.gif" alt="processing ...">
+        </div>
+        <div class="alert alert-warning alert-dismissible" role="alert" ng-if="register.orgcreated">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>Organization Code: {{register.orgcode}}</strong><br>Please use this code to register under your Organizational account!
+        </div>
         <label>Service Type : </label>                    
         <label class="radio-inline">
           <input type="radio" name="service" ng-model="register.service" value="B" > Basic
@@ -11,44 +22,86 @@
           <input type="radio" name="service" ng-model="register.service" value="O" > Organization
         </label>
         <br><br>
-        <div class="row">
+        <div class="row" ng-if="register.service=='B'">
           <div class="col-xs-6 col-md-6">
-            <input type="text" name="firstname" ng-model="register.fname" class="form-control input-lg" placeholder="First Name" >        
+            <div class="form-group">
+              <input type="text" name="firstname" ng-model="register.fname" class="form-control" placeholder="First Name" required> 
+            </div>       
           </div>
           <div class="col-xs-6 col-md-6">
-            <input type="text" name="lastname" ng-model="register.lname" class="form-control input-lg" placeholder="Last Name" >                        
+            <div class="form-group">
+              <input type="text" name="lastname" ng-model="register.lname" class="form-control" placeholder="Last Name" required>           
+            </div>             
           </div>
         </div>
-        <input ng-if="register.service=='B'" type="text" ng-model="register.username" class="form-control input-lg" placeholder="Your Email" >
-        <input type="password" name="password" ng-model="register.password" class="form-control input-lg" placeholder="Password" >
-        <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password" >         
+        <div ng-if="register.service=='B'" class="form-group">
+          <input type="text" ng-model="register.username" class="form-control" placeholder="Your Email" required>
+        </div>
+        <div ng-if="register.service=='B'" class="form-group">
+          <input type="text" ng-model="register.orgid" class="form-control" placeholder="Organizational Code" required>
+        </div>
+        <div class="form-group" ng-if="register.service=='B'">
+          <input type="password" name="password" ng-model="register.password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="form-group" ng-if="register.service=='B'">
+          <input type="password" name="confirm_password" value="" class="form-control" placeholder="Confirm Password" required>         
+        </div>
         <!--<label>Country:</label>-->
-        <select name="country" class="form-control input-lg" ng-model="register.country">
-          <option value="">--- please select country ---</option>
-          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-          <option value="United States of America">United States of America</option>
-        </select>  
+        <div class="form-group" ng-if="register.service=='B'">
+          <select name="country" class="form-control" ng-model="register.country" required>
+            <option value="">--- please select country ---</option>
+            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+            <option value="United States of America">United States of America</option>
+          </select>  
+        </div>
         
         <div ng-if="register.service == 'O'">
+          <div class="form-group">
+            <input type="text" ng-model="register.company" class="form-control" placeholder="Name of Organization" required>
+          </div>
+          <div class="form-group">
+            <input type="text" ng-model="register.username" class="form-control" placeholder="Organization Email" required>
+          </div>
           <!--<label>Industry:</label>-->
-          <select name="category" class="form-control input-lg" ng-model="register.industry">
-            <option value="">--- please select industry ---</option>
-            <option value="Industry">Insurance</option>
-            <option value="Security">Security</option>
-            <option value="Dealer">Vehicle Dealer</option>
-          </select> 
-          <input type="text" ng-model="register.company" class="form-control input-lg" placeholder="Name of Organization" >
-          <input type="text" ng-model="register.username" class="form-control input-lg" placeholder="Organization Email" >
+          <div class="form-group">
+            <select name="category" class="form-control" ng-model="register.industry" required>
+              <option value="">--- please select industry ---</option>
+              <option value="Insurance">Insurance</option>
+              <option value="Security">Security</option>
+              <option value="Dealer">Vehicle Dealer</option>
+            </select> 
+          </div>
+          <!--<label>Industry:</label>-->
+          <div class="form-group">
+            <select name="users" class="form-control" ng-model="register.numusers" required>
+              <option value="">--- please select no. of users ---</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select> 
+          </div>
         </div>                  
         <span class="help-block">
           By clicking Create my account, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.
         </span>
-        <button class="btn btn-lg btn-success btn-block signup-btn" type="submit">Create my account</button>
-    </form>          
+        <button ng-if="register.service == 'B'" class="btn btn-success btn-block signup-btn" type="submit">Create my account</button>
+        <button ng-if="register.service == 'O'" class="btn btn-success btn-block signup-btn" type="submit">Create organization account</button>
+      </form>
+    </div>
+  </div>            
 </div>
-</div>            
-</div>
-</div>
+
+
+<br>
+<br>
+<div ng-include='"views/footer.html"'></div>
 
 <!--<form class="form-horizontal" role="form">
     <fieldset>
