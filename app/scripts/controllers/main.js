@@ -25,7 +25,9 @@ angular.module('cloudApp')
 	    	details : null,
 	    	showtable : false,
 	      	searching : false,
-	      	user : localStorageService.get('user')
+	      	nodata : false,
+	      	user : localStorageService.get('user'),
+	      	usertype : localStorageService.get('usertype')
 	    };
 
 	    //Function to retrieve vehilce information from backend
@@ -38,8 +40,15 @@ angular.module('cloudApp')
 		    .then(function(success) {
 			  console.dir(success);
 			  $scope.vehicle.searching = false;
-			  $scope.vehicle.showtable = true;
-			  $scope.vehicle.details = success.data;
+			  if(success.data) {
+			  	$scope.vehicle.nodata = false;
+			  	$scope.vehicle.showtable = true;
+			  	$scope.vehicle.details = success.data;
+			  }
+			  else {
+			  	$scope.vehicle.showtable = false;
+			  	$scope.vehicle.nodata = true;
+			  }
 			}, function(error) {
 			  console.error(error);
 		  });

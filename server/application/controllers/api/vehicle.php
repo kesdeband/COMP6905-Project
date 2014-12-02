@@ -39,7 +39,10 @@ class Vehicle extends REST_Controller {
 		}
 
 		if($vehicle) {
-			$this->response($vehicle, 200);
+			if($vehicle === 404)
+				$this->response(false, 200);
+			else
+				$this->response($vehicle, 200);
 		}
 		else {
 			$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);
