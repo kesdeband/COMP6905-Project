@@ -31,8 +31,16 @@ class Vehicle extends REST_Controller {
 			$this->response(array('success' => false, 'error' => 'Invalid Vehicle Registration No./Country'), 400);
 		}
 
+		$arr = explode(" ", $this->get('regno'));
+		$regno = "";
+		foreach ($arr as $value) {
+			$regno = $regno.trim($value);
+		}
+
+		$regno = strtoupper($regno);
+
 		try {
-			$vehicle = $this->Vehicles_model->retrieve_vehicle_info($this->get('regno'), $this->get('country'), $this->get('usertype'));
+			$vehicle = $this->Vehicles_model->retrieve_vehicle_info($regno, $this->get('country'), $this->get('usertype'));
 		}
 		catch(Exception $e) {
 			echo "Caught exception: ",  $e->getMessage(), "<br>";

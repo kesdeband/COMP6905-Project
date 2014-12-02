@@ -83,7 +83,7 @@ angular.module('cloudApp')
       token = retrieveToken();
       console.debug(token);
 
-      $http.put(uri + '/tenants/account/', {
+      $http.post(uri + '/tenants/accounts/', {
         token : token
       })
       .then(function(success) {

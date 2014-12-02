@@ -136,17 +136,17 @@ class Tenants extends REST_Controller {
 
 	/**
 	* CRUD: account
-	* HTTP METHOD: PUT
+	* HTTP METHOD: POST
 	* MODEL FUNCTION: logout_tenant($token)
-	* URL: localhost/cloud/server/index.php/api/tenants/account
+	* URL: localhost/cloud/server/index.php/api/tenants/accounts
 	* SAMPLE DATA: {"token":"e898e568c22fcddaffa5bfb81f186086af053d7"}
 	*/
-	function account_put()
+	function accounts_post()
 	{
-		if($this->put('token')) {
+		if($this->post('token')) {
 
 			try {
-				$logout = $this->Tenants_model->logout_tenant($this->put('token'));
+				$logout = $this->Tenants_model->logout_tenant($this->post('token'));
 			}
 			catch(Exception $e) {
 				echo "Caught exception: ",  $e->getMessage(), "<br>";

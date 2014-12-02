@@ -78,3 +78,13 @@ body {
     border-bottom: 0;
   }
 }
+
+
+.sample-show-hide {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.sample-show-hide.ng-if {
+  opacity:0;
+}
