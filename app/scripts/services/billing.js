@@ -2,34 +2,25 @@
 
 /**
  * @ngdoc service
- * @name cloudApp.vehicle
+ * @name cloudApp.billing
  * @description
- * # vehicle
+ * # billing
  * Factory in the cloudApp.
  */
 angular.module('cloudApp')
-  .factory('vehicle', function ($http, $q, localStorageService, api) {
+  .factory('billing', function ($http, $q, localStorageService, api) {
     // Service logic
     // ...
 
     var uri = api.url(); //get url from factory api
 
-    var vehicleInformation = function(registrationNo, country) {
+    var updateTransaction = function(tenantid, orgid, email) {
       var deferred = $q.defer();
-      var usertype = retrieveUserType();
-      var username = retrieveUserName();
-      var tenantid = retrieveTenantId();
 
-      //console.debug(registrationNo);
-
-      $http.get(uri + '/vehicle/details/', {
-        params: {
-          regno : registrationNo,
-          country : country,
-          usertype : usertype,
-          tenantid : tenantid,
-          username : username
-        }
+      $http.post(uri + '/billing/transaction/', {
+        tenantid : tenantid,
+        orgid : orgid,
+        email : email
       })
       .then(function (success) {
         console.dir(success);
@@ -41,13 +32,27 @@ angular.module('cloudApp')
       return deferred.promise;
     };
 
-    var retrieveUserType = function() {
-      var usertype;
+    var billingInformation = function() {
+      var deferred = $q.defer();
+      var email = retrieveUserName();
+      var tenantid = retrieveTenantId();
 
-      if (localStorageService.get('usertype') !== false) {
-        usertype = localStorageService.get('usertype');
-      }
-      return usertype;
+      //console.debug(registrationNo);
+
+      $http.get(uri + '/billing/transaction/', {
+        params: {
+          tenantid : tenantid,
+          email : email
+        }
+      })
+      .then(function (success) {
+        console.dir(success);
+        deferred.resolve(success);
+      }, function(error) {
+        console.dir(error);
+        deferred.reject(error);
+      });
+      return deferred.promise;
     };
 
     var retrieveUserName = function() {
@@ -70,8 +75,11 @@ angular.module('cloudApp')
 
     // Public API here
     return {
-      getDetails: function (registrationNo, country, usertype) {
-        return vehicleInformation(registrationNo, country, usertype);
+      recordTransaction: function (tenantid, orgid, email) {
+        return updateTransaction(tenantid, orgid, email);
+      },
+      tenantBilling: function () {
+        return billingInformation();
       }
     };
   });

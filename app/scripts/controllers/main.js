@@ -8,7 +8,7 @@
  * Controller of the cloudApp
  */
 angular.module('cloudApp')
-  .controller('MainCtrl', function ($scope, $location, localStorageService, vehicle, tenant) {
+  .controller('MainCtrl', function ($scope, $location, localStorageService, vehicle) {
     
 
     //Get user login status
@@ -26,7 +26,6 @@ angular.module('cloudApp')
 	    	showtable : false,
 	      	searching : false,
 	      	nodata : false,
-	      	user : localStorageService.get('user'),
 	      	usertype : localStorageService.get('usertype')
 	    };
 
@@ -53,20 +52,6 @@ angular.module('cloudApp')
 			  console.error(error);
 		  });
 		};
-
-		//Logout user
-		$scope.signOut = function () { //Logout
-	      tenant.logout()
-		    .then(function(success) {
-			  console.dir(success.data.logout);
-			  if(success.data.logout) {
-			    localStorageService.clearAll();
-				$location.path('/signin').replace();
-			  }
-			}, function(error) {
-			  console.error(error);
-		  });
-	    };
 	}
 
   });

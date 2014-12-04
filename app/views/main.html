@@ -54,9 +54,14 @@
   <!--End Basic User-->
 
   <!--Dealer User-->
-  <div class="row" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable" style="margin: 0 4px 0 4px;">
+  <div class="panel panel-info" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable">
+    <!-- panel contents -->
+    <div class="panel-heading" style="padding-left:5px"><b>Vehicle Information</b></div>
+    <!-- Table -->
+    <!--<table class="table">
+    ...
+    </table>-->
     <table class="table table-striped table-hover table-condensed">
-      <caption><b style="color:blue;">Vehicle Information</b></caption>
       <tbody>
         <tr>
           <th>Chassis No.</th>
@@ -79,9 +84,14 @@
     </table>
   </div>
 
-  <div class="row" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable" style="margin: 0 4px 0 4px;">
+  <div class="panel panel-info" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable">
+    <!-- panel contents -->
+    <div class="panel-heading" style="padding-left:5px"><b>Owner Information</b></div>
+    <!-- Table -->
+    <!--<table class="table">
+    ...
+    </table>-->
     <table class="table table-striped table-hover table-condensed">
-      <caption><b style="color:blue;">Owner Information</b></caption>
       <tbody>
         <tr>
           <th>Name</th>
@@ -89,6 +99,7 @@
           <th>Age</th>
           <th>Address</th>
           <th>Gender</th>
+          <th>Owner Image</td>
         </tr>
         <!--<tr ng-repeat="vehicle in vehicle.details">-->
         <tr>
@@ -97,14 +108,20 @@
           <td>{{vehicle.details.age}}</td>
           <td>{{vehicle.details.address}}</td>
           <td>{{vehicle.details.gender}}</td>
+          <td><img ng-src="images/yeoman.png" alt="loading ..."></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="row" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable" style="margin: 0 4px 0 4px;">
+  <div class="panel panel-info" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable">
+    <!-- panel contents -->
+    <div class="panel-heading" style="padding-left:5px"><b>Insurance Information</b></div>
+    <!-- Table -->
+    <!--<table class="table">
+    ...
+    </table>-->
     <table class="table table-striped table-hover table-condensed">
-      <caption><b style="color:blue;">Insurance Information</b></caption>
       <tbody>
         <tr>
           <th>Insurance No.</th>
@@ -119,6 +136,25 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!--<div class="row" ng-if="vehicle.usertype === 'Dealer' && vehicle.showtable" style="margin: 0 4px 0 4px;">
+    <table class="table table-striped table-hover table-condensed">
+      <caption><b style="color:blue;">Insurance Information</b></caption>
+      <tbody>
+        <tr>
+          <th>Insurance No.</th>
+          <th>Company Name</th>
+          <th>Coverage Type</th>
+        </tr>
+        <!--<tr ng-repeat="vehicle in vehicle.details">
+        <tr>
+          <td>{{vehicle.details.insurancecertificate}}</td>
+          <td>{{vehicle.details.insurancename}}</td>
+          <td>{{vehicle.details.insurancetype}}</td>
+        </tr>
+      </tbody>
+    </table>-->
   </div>
   <!--End Dealer User-->
 

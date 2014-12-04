@@ -8,6 +8,7 @@ class Vehicle extends REST_Controller {
 	function __construct() {
         parent::__construct();
         $this->load->model('Vehicles_model', '', TRUE);
+        $this->load->model('Billing_model', '', TRUE);
         //$this->load->helper('cookie');
     }
 
@@ -27,7 +28,7 @@ class Vehicle extends REST_Controller {
 	*/
 	function details_get() 
 	{
-		if(!$this->get('regno') || !$this->get('country') || !$this->get('usertype')) {
+		if(!$this->get('regno') || !$this->get('country') || !$this->get('usertype') || !$this->get('tenantid') || !$this->get('username')) {
 			$this->response(array('success' => false, 'error' => 'Invalid Vehicle Registration No./Country'), 400);
 		}
 
@@ -49,8 +50,27 @@ class Vehicle extends REST_Controller {
 		if($vehicle) {
 			if($vehicle === 404)
 				$this->response(false, 200);
-			else
-				$this->response($vehicle, 200);
+			else {
+
+				$date = date("Y-m-d");
+				$orgid = 123345;
+
+				try {
+					$transaction = $this->Billing_model->tenant_tranasaction($this->get('tenantid'), $orgid, $this->get('username'),
+						$date);
+				}
+				catch(Exception $e) {
+					echo "Caught exception: ",  $e->getMessage(), "<br>";
+				}
+
+				if($transaction) {
+					//$this->response($transaction, 200);
+					$this->response($vehicle, 200);
+				}
+				else {
+					$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);
+				}
+			}
 		}
 		else {
 			$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);

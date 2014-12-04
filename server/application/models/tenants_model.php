@@ -90,7 +90,7 @@ class Tenants_model extends CI_Model {
         if($this->tenant_exists($username)) //Check if the tenant exists
         {   
             // Get user login data
-            $this->db->select('TenantID, FirstName, Password, TenantSalt');
+            $this->db->select('TenantID, Username, FirstName, Password, TenantSalt');
             $query = $this->db->get_where('Tenant', array('Username' => $username));
 
             // Get user's first name
@@ -99,6 +99,7 @@ class Tenants_model extends CI_Model {
             $results['tenantid'] = $query->row()->TenantID;
             //Get user type
             $results['usertype'] = $this->retrieve_usertype($username);
+            $results['username'] = $query->row()->Username;
 
             //Compute hash password
             $password_hash = $query->row()->TenantSalt . $password;

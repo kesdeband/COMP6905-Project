@@ -25,11 +25,15 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/home.html',
-        controller: ''
+        controller: 'HomeCtrl'
       })
       .when('/main', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
+      })
+      .when('/billing', {
+        templateUrl: 'views/billing.html',
+        controller: 'BillingCtrl'
       })
       .when('/signin', {
         templateUrl: 'views/signin.html',

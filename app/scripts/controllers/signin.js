@@ -48,6 +48,7 @@ angular.module('cloudApp')
             localStorageService.add('user', success.data.fname);
             localStorageService.add('tenantid', success.data.tenantid);
             localStorageService.add('usertype', success.data.usertype);
+            localStorageService.add('username', success.data.username);
             localStorageService.add('loggedIn', true);
             $location.path('/main').replace();
             

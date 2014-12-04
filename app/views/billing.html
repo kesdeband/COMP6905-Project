@@ -1,0 +1,49 @@
+<div ng-include='"views/header2.html"'></div>
+<br>
+<br>
+<div class="container">
+
+	<div ng-if="billing.processing" class="text-center">
+    	<img ng-src="images/waiting.gif" alt="loading ...">
+  	</div>
+
+	<div class="row" style="margin: 0 4px 0 4px;" ng-if="!billing.processing">
+	    <table class="table table-condensed">
+	      <caption><b style="color:blue;">Billing Information</b></caption>
+	      <tbody>
+	        <tr>
+	          <th>#</th>
+	          <th>Date</th>
+	          <th>No. of Transactions</th>
+	          <th>Transactions Cost</th>
+	        </tr>
+	        <tr ng-repeat="transaction in billing.details">
+	          <td>{{$index+1}}</td>
+	          <td>{{transaction.Date}}</td>
+	          <td>{{transaction.NoTransactions}}</td>
+	          <td>${{transaction.NoTransactions * 0.99 | number:2}}</td>
+	        </tr>
+	        <tr>
+	          <td></td>
+	          <td></td>
+	          <td><b>Sub-Total</b></td>
+	          <td><b>${{billing.totalTransactions * 0.99 | number:2}}</b></td>
+	        </tr>
+	        <tr>
+	          <td></td>
+	          <td></td>
+	          <td><b>VAT</b></td>
+	          <td><b>${{billing.totalTransactions * 0.99 * 0.15 | number:2}}</b></td>
+	        </tr>
+	        <tr>
+	          <td></td>
+	          <td></td>
+	          <td class="text-danger"><b>Total Due</b></td>
+	          <td class="text-danger"><b>${{(billing.totalTransactions * 0.99 * 0.15) + (billing.totalTransactions * 0.99) | number:2}}</b></td>
+	        </tr>
+	      </tbody>
+	    </table>
+  	</div>
+
+	<div ng-include='"views/footer.html"'></div>
+</div>
