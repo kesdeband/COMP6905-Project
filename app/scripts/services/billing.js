@@ -32,6 +32,27 @@ angular.module('cloudApp')
       return deferred.promise;
     };
 
+    var storeCardDetails = function(tenantid, cardname, cardno, expmth, expyear, cvc) {
+      var deferred = $q.defer();
+
+      $http.post(uri + '/billing/card/', {
+        tenantid : tenantid,
+        cardname : cardname,
+        cardno : cardno,
+        expmth : expmth,
+        expyr : expyear,
+        cvc : cvc
+      })
+      .then(function (success) {
+        console.dir(success);
+        deferred.resolve(success);
+      }, function(error) {
+        console.dir(error);
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    };
+
     var billingInformation = function() {
       var deferred = $q.defer();
       var email = retrieveUserName();
@@ -80,6 +101,9 @@ angular.module('cloudApp')
       },
       tenantBilling: function () {
         return billingInformation();
+      },
+      cardStore: function (tenantid, cardname, cardno, expmth, expyear, cvc) {
+        return storeCardDetails(tenantid, cardname, cardno, expmth, expyear, cvc);
       }
     };
   });

@@ -44,7 +44,36 @@ class Billing_model extends CI_Model {
         $this->db->where('Date >=', $start_date);
         $this->db->where('Date <=', $end_date);
         $query = $this->db->get();
-        if($query) return $query->result();
+        if($query->num_rows() > 0) return $query->result();
+        else
+        	return -1;
+    }
+
+    //Store Tenant Payment Information (Credit Card)
+    function store_payment_details($tenantid, $cardname, $cardnumber, $expmonth, $expyear, $cvc) {
+    	$results = FALSE;
+    	$row['TenantID'] = $tenantid;
+        $row['CardHolder'] = $cardname;
+        $row['CardNumber'] = $cardnumber;
+        $row['ExpMonth'] = $expmonth;
+        $row['ExpYear'] = $expyear;
+        $row['CVC'] = $cvc;
+        $query = $this->db->insert('CreditCardInfo', $row);
+        if($query) $results = TRUE;
+        return $results;
+    }
+
+    //Check if card details already stored in database
+    function card_exists($cardnumber) {
+    	$result = FALSE;
+
+        //Check for card in database
+        if($cardnumber)
+        {
+            $query = $this->db->get_where('CreditCardInfo', array('CardNumber' => $cardnumber));
+            if($this->get_db_data($query)) $result = TRUE;
+        }
+        return $result;
     }
 
     //Check if query returns rows

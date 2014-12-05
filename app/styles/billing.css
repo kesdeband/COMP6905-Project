@@ -1,0 +1,25 @@
+/*.billing .icon {
+    font-size: 47px;
+    color: #5CB85C;
+}
+
+.billing .iconbig {
+    font-size: 77px;
+    color: #5CB85C;
+}*/
+
+.billing .table > tbody > tr > .emptyrow {
+    border-top: none;
+}
+
+.billing .table > thead > tr > .emptyrow {
+    border-bottom: none;
+}
+
+.billing .table > tbody > tr > .highrow {
+    border-top: 3px solid;
+}
+
+.billing .first-column {
+	width: 500px;
+}

@@ -46,6 +46,7 @@ angular.module('cloudApp')
             //Store user's token and related login information in local storage
             localStorageService.add('token', success.data.token);
             localStorageService.add('user', success.data.fname);
+            localStorageService.add('lastname', success.data.lname);
             localStorageService.add('tenantid', success.data.tenantid);
             localStorageService.add('usertype', success.data.usertype);
             localStorageService.add('username', success.data.username);

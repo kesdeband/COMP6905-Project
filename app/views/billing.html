@@ -1,49 +1,164 @@
 <div ng-include='"views/header2.html"'></div>
 <br>
 <br>
-<div class="container">
-
-	<div ng-if="billing.processing" class="text-center">
-    	<img ng-src="images/waiting.gif" alt="loading ...">
-  	</div>
-
-	<div class="row" style="margin: 0 4px 0 4px;" ng-if="!billing.processing">
-	    <table class="table table-condensed">
-	      <caption><b style="color:blue;">Billing Information</b></caption>
-	      <tbody>
-	        <tr>
-	          <th>#</th>
-	          <th>Date</th>
-	          <th>No. of Transactions</th>
-	          <th>Transactions Cost</th>
-	        </tr>
-	        <tr ng-repeat="transaction in billing.details">
-	          <td>{{$index+1}}</td>
-	          <td>{{transaction.Date}}</td>
-	          <td>{{transaction.NoTransactions}}</td>
-	          <td>${{transaction.NoTransactions * 0.99 | number:2}}</td>
-	        </tr>
-	        <tr>
-	          <td></td>
-	          <td></td>
-	          <td><b>Sub-Total</b></td>
-	          <td><b>${{billing.totalTransactions * 0.99 | number:2}}</b></td>
-	        </tr>
-	        <tr>
-	          <td></td>
-	          <td></td>
-	          <td><b>VAT</b></td>
-	          <td><b>${{billing.totalTransactions * 0.99 * 0.15 | number:2}}</b></td>
-	        </tr>
-	        <tr>
-	          <td></td>
-	          <td></td>
-	          <td class="text-danger"><b>Total Due</b></td>
-	          <td class="text-danger"><b>${{(billing.totalTransactions * 0.99 * 0.15) + (billing.totalTransactions * 0.99) | number:2}}</b></td>
-	        </tr>
-	      </tbody>
-	    </table>
-  	</div>
-
-	<div ng-include='"views/footer.html"'></div>
+<br>
+<div class="container billing">
+	<h2>My Account</h2>
+	<hr>
+	<div class="row">
+        <div class="col-md-3">
+        	<h4 class="text-warning">Account Details</h4>
+        </div>
+  		<div class="col-md-3">
+  			<h5><b>Name</b><br><br>{{billing.tenantName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""><i class="glyphicon glyphicon-pencil"></i> Edit</a></h5>
+  			
+  		</div>
+  		<div class="col-md-3">
+  			<h5><b>Email</b><br><br>{{billing.tenantEmail}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""><i class="glyphicon glyphicon-pencil"></i> Edit</a></h5>
+  		</div>
+  		<div class="col-md-3"><br><br><a href=""><i class="glyphicon glyphicon-lock"></i> Change password</a></div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3"><h4 class="text-warning">Service Plan</h4></div>
+  		<div class="col-md-3">
+  			<h5>
+  				<b>Transactions Rate @ ${{billing.rate | number:2}}</b>
+  				<br>
+  				<br>
+  				<a href="" ng-click="showStatement()" ng-if="!billing.showStatement">
+  					<i class="glyphicon glyphicon-collapse-down"></i> View Complete Statement
+  				</a>
+  				<a href="" ng-click="hideStatement()" ng-if="billing.showStatement">
+  					<i class="glyphicon glyphicon-collapse-up"></i> Hide Complete Statement 
+  				</a>
+  			</h5>
+  		</div>
+  		<div class="col-md-6"><h5>Current Transaction Count : {{billing.totalTransactions}}<br><br>
+  		<p class="text-danger">Your next payment is due on: {{billing.date | date:'yyyy-MM-dd'}}</p></h5>
+  		</div>
+  		<div class="col-md-9 col-md-offset-3" ng-if="billing.showStatement">
+  			<div ng-if="billing.processing" style="padding-left:130px;">
+    			<img ng-src="images/waiting.gif" alt="loading ...">
+  			</div>
+            <div class="panel panel-default" ng-if="!billing.processing">
+                <div class="panel-heading">
+                    <h3><strong>SERVICE PROVISION STATEMENT</strong></h3>
+                    <h4>Tenant Name: <span>{{billing.tenantName | uppercase}}</span></h4>
+                    <div class="row">
+                    	<div class="col-md-6"><h4>Account Number: <span class="text-danger">{{billing.tenantAccount}}</span></h4></div>
+  						<div class="col-md-6 text-right"><h4>Billing Date : {{billing.date | date:'yyyy-MM-dd'}}</h4></div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead ng-if="billing.tablehead">
+                                <tr>
+                                    <td class="first-column"><strong>#</strong></td>
+                                    <td class="text-center"><strong>Date</strong></td>
+                                    <td class="text-center"><strong>No. of Transactions</strong></td>
+                                    <td class="text-right"><strong>Transactions Cost</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	<tr ng-repeat="transaction in billing.details">
+	          						<td class="first-column">{{$index+1}}</td>
+	          						<td class="text-center">{{transaction.Date}}</td>
+	          						<td class="text-center">{{transaction.NoTransactions}}</td>
+	          						<td class="text-right">${{transaction.NoTransactions * billing.rate | number:2}}</td>
+	        					</tr>
+	        					<tr>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center"><strong>Subtotal</strong></td>
+                                    <td class="highrow text-right">${{billing.subTotal | number:2}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-center"><strong>VAT</strong></td>
+                                    <td class="emptyrow text-right">${{billing.vatTotal | number:2}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="emptyrow"><i class="fa fa-barcode iconbig"></i></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-center text-danger"><strong>Total</strong></td>
+                                    <td class="emptyrow text-right text-danger">${{billing.grandTotal | number:2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3"><h4 class="text-warning">Payment Method</h4></div>
+  		<div class="col-md-9">
+  			<h5>
+  				<b ng-if="!billing.cardonfile">No Payment Method on File</b>
+  				<b class="alert alert-success" role="alert" ng-if="billing.cardonfile">Congratulations, payment Method successfully saved on file!</b><br ng-if="billing.cardonfile">
+  				<br><br>
+  				<a href="" ng-click="showPaymentMethod()" ng-if="!billing.showPaymentMethod">
+  					<i class="glyphicon glyphicon-plus"></i> Add Payment Details
+  				</a>
+  				<a href="" ng-click="closePaymentMethod()" ng-if="billing.showPaymentMethod">
+  					<i class="glyphicon glyphicon-minus"></i> Close Payment Details
+  				</a>
+  			</h5>
+  		</div>
+  		<div class="col-md-9 col-md-offset-3" ng-if="billing.showPaymentMethod">
+			<div class="row">
+        		<div class="col-md-5">
+        			<div class="panel panel-primary">
+                		<div class="panel-heading">
+                			<h4>Payment Details</h4>
+                		</div>
+                		<form role="form" style="padding:10px 10px 10px 10px;" ng-submit="paymentDetails()">
+			                <div class="form-group">
+			                    <label>Cardholder's Name</label>
+			                    <input type="text" class="form-control" placeholder="Name On Card" ng-model="billing.cardname" autofocus required>
+			                </div>
+			                <div class="form-group">
+			                    <label>Card Number</label>
+			                    <input type="text" class="form-control" placeholder="Valid Card Number" maxlength="16" ng-model="billing.cardno" required>
+			                </div>
+			                <div class="row">
+			                    <div class="col-md-4">
+			                        <div class="form-group">
+			                            <label>Exp Month</label>
+			                            <input type="text" class="form-control" placeholder="MM" maxlength="2" ng-model="billing.expmth" required>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4">
+			                        <div class="form-group">
+			                            <label>Exp Year</label>
+			                            <input type="text" class="form-control" placeholder="YYYY" maxlength="4" ng-model="billing.expyr" required>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4">
+			                        <div class="form-group">
+			                            <label>CVC</label>
+			                            <input type="text" class="form-control" placeholder="Ex. 331" maxlength="3" ng-model="billing.cvc" required>
+			                        </div>
+			                    </div>
+			                </div>
+                			<button type="submit" class="btn btn-success">Submit</button>
+            			</form>
+                	</div>
+            
+        		</div>
+        		<div class="col-md-7">
+        			<div ng-if="billing.cardprocessing" class="text-center">
+    					<img ng-src="images/waiting.gif" alt="loading ...">
+  					</div>
+        		</div>
+    		</div>
+  		</div>
+    </div>
+    <br>
+    <br>
+    <div ng-include='"views/footer.html"'></div>
 </div>

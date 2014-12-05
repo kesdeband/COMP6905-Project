@@ -90,11 +90,12 @@ class Tenants_model extends CI_Model {
         if($this->tenant_exists($username)) //Check if the tenant exists
         {   
             // Get user login data
-            $this->db->select('TenantID, Username, FirstName, Password, TenantSalt');
+            $this->db->select('TenantID, Username, FirstName, LastName, Password, TenantSalt');
             $query = $this->db->get_where('Tenant', array('Username' => $username));
 
             // Get user's first name
             $results['fname'] = $query->row()->FirstName;
+            $results['lname'] = $query->row()->LastName;
             // Get user's id
             $results['tenantid'] = $query->row()->TenantID;
             //Get user type

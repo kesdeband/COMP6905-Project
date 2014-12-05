@@ -74,13 +74,52 @@ class Billing extends REST_Controller {
 		}
 
 		if($transactions) {
-			$total = 0;
-			$size = count($transactions);
-			for ($i=0; $i < $size; $i++) { 
-				$total += $transactions[$i]->NoTransactions;
+			if($transactions === -1) {
+				$this->response(array('bill' => 0, 'total' => 0, 'size' => 0), 200);
 			}
-			//$this->response(array('total' => $total), 200);
-			$this->response(array('bill' => $transactions, 'total' => $total, 'size' => $size), 200);
+			else {
+				$total = 0;
+				$size = count($transactions);
+				for ($i=0; $i < $size; $i++) { 
+					$total += $transactions[$i]->NoTransactions;
+				}
+				//$this->response(array('total' => $total), 200);
+				$this->response(array('bill' => $transactions, 'total' => $total, 'size' => $size), 200);
+			}
+		}
+		else {
+			$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);
+		} 
+	}
+
+	/**
+	* CRUD: card
+	* HTTP METHOD: POST
+	* MODEL FUNCTION: store_payment_details($tenantid, $cardname, $cardnumber, $expmonth, $expyear, $cvc)
+	* URL: localhost/cloud/server/index.php/api/billing/card/
+	* SAMPLE DATA: {"tenantid":57733494,"cardname":"Keston Joseph","cardno":"876929720927","expmth":"12","expyr":"2019","cvc":"008"}
+	*/
+	function card_post() 
+	{
+		if(!$this->post('tenantid') || !$this->post('cardname') || !$this->post('cardno') || !$this->post('expmth') 
+			|| !$this->post('expyr') || !$this->post('cvc')) {
+			$this->response(array('success' => false, 'error' => 'Invalid Credentails!'), 400);
+		}
+
+		if($this->Billing_model->card_exists($this->post('cardno'))) {
+			$this->response(array('response' => "Card already on file!", 'code' => 301), 200);
+		}
+
+		try {
+			$card = $this->Billing_model->store_payment_details($this->post('tenantid'), $this->post('cardname'), $this->post('cardno'),
+				$this->post('expmth'), $this->post('expyr'), $this->post('cvc'));
+		}
+		catch(Exception $e) {
+			echo "Caught exception: ",  $e->getMessage(), "<br>";
+		}
+
+		if($card) {
+			$this->response(array('response' => $card), 200);
 		}
 		else {
 			$this->response(array('success' => false, 'error' => 'Internal Server Error'), 500);
