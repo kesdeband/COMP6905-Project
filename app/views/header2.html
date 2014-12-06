@@ -7,14 +7,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/">Vehicle Ownership Tracking System</a>
+      <a class="navbar-brand inline-block" href="#/">
+        <img ng-src="images/logo1.png" alt="Logo">
+        <b>Vehicle Ownership Tracking System</b>
+      </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <!--<li><a href="#/signin">Sign-In</a></li>-->
-        <li><a>Hi, {{tenant.user}}</a></li>
-        <li><a href="#/billing">My Account</a></li>
-        <li><a href="" ng-click="signOut()">Log Out</a></li>
+        <li><a class="display-name"><b>Hi, <i>{{tenant.user}}</i></b></a></li>
+        <li><a href="#/billing"><b>My Account</b></a></li>
+        <li><a href="" ng-click="signOut()"><b>Log Out</b></a></li>
       </ul>
       <!--<form class="navbar-form navbar-right">
         <input type="text" class="form-control" placeholder="Search...">

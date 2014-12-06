@@ -1,3 +1,60 @@
-.tenant-name {
-    background-color: #FFF;
+.header {
+	/*background-color: #0080ff;*/
+	background-color: #4682B4;
+}
+
+/* title */
+.header .navbar-brand {
+	padding-top: 30px;
+	font-size: 20px;
+}
+
+.header .navbar-brand {
+    color: #5E5E5E;
+}
+
+.header .navbar-brand:hover,
+.header .navbar-brand:focus {
+    color: #333;
+}
+
+
+/* link */
+.header .navbar-nav > li > a {
+    color: #5E5E5E;
+}
+.header .navbar-nav > li > a:hover,
+.header .navbar-nav > li > a:focus {
+    color: #333;
+}
+.header .navbar-nav > .active > a, 
+.header .navbar-nav > .active > a:hover, 
+.header .navbar-nav > .active > a:focus {
+    color: #555;
+    background-color: #E7E7E7;
+}
+.header .navbar-nav > .open > a, 
+.header .navbar-nav > .open > a:hover, 
+.header .navbar-nav > .open > a:focus {
+    color: #555;
+    background-color: #D5D5D5;
+}
+
+/*Highlight display name*/
+.header .navbar-nav > li > a.display-name {
+    color: #333;
+}
+
+.navbar-fixed-top .nav {
+    padding: 15px 0;
+}
+
+/*.navbar-fixed-top .navbar-brand {
+    padding: 0 15px;
+}*/
+
+
+.header .navbar-brand {
+	padding-top: 10px;
+	font-size: 22px;
 }

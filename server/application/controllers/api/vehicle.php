@@ -23,7 +23,8 @@ class Vehicle extends REST_Controller {
 	* CRUD: detail
 	* HTTP METHOD: GET
 	* MODEL FUNCTION: retrieve_vehicle_info($registrationNo, $country)
-	* URL: localhost/cloud/server/index.php/api/vehicle/details/regno/<regno>/country/<country>/usertype/<usertype>
+	* URL: localhost/cloud/server/index.php/api/vehicle/details/regno/<regno>/country/<country>/usertype/<usertype>/tenantid/<tenantid>/
+	*      username/<username>
 	* SAMPLE DATA: N/A
 	*/
 	function details_get() 
