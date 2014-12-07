@@ -5,7 +5,9 @@
 <br>
 <div class="container">
   <form role="form" ng-submit="retrieveVehicleInfo()">
-    <div class="jumbotron">
+    <div class="jumbotron" style="padding:5px 50px 15px 50px;">
+      <h2>Vehicle Enquiry</h2>
+      <p>To make an enquiry enter the vehicle license plate and location (country).</p>
       <div class="form-group">
         <input type="text" class="form-control" ng-model="vehicle.registrationNo" placeholder="Enter Registration Number (License Plate)" autofocus required>
       <br>
@@ -16,6 +18,7 @@
           <option value="BRA">Brazil</option>
           <option value="FR">Fracne</option>
           <option value="GER">Germany</option>
+          <option value="GUY">Guyana</option>
           <option value="TT">Trinidad and Tobago</option>
           <option value="UK">United Kingdom</option>
           <option value="USA">United States of America</option>
@@ -30,6 +33,9 @@
     <br>
     <br>
   </div>
+  <div>
+    <h2 ng-if="vehicle.showtable">Search Results:</h2>
+  </div>
 
   <!--Owner Information-->
   <div class="row" style="margin: 0 1px 0 1px;" ng-if="(vehicle.usertype === 'Insurance' || vehicle.usertype === 'Security' || vehicle.usertype === 'Dealer' || vehicle.usertype === 'Basic') && vehicle.showtable">
@@ -38,7 +44,7 @@
       <!-- Table -->
         <div class="row" style="margin: 0 1px 0 1px;">
           <div class="col-md-2 text-center" style="padding: 5px 5px;">
-            <img ng-src="images/lewis.jpg" alt="owner photo">
+            <img ng-src="images/{{vehicle.details.image}}" alt="owner photo">
           </div>
           <div class="col-md-6">
             <h5><b>Name:</b> {{vehicle.details.owner}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>National Identification No:</b> {{vehicle.details.id}}</h5>

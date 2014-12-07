@@ -33,7 +33,7 @@ class Vehicles_model extends CI_Model {
 		}
 		if($result) {
             $entity = $result->getEntity();
-            /*if(strcmp($usertype, "Basic") === 0) {
+            if(strcmp($usertype, "Basic") === 0) {
                 $arr = array('owner' => $entity->getProperty("Owner")->getValue(),
                              'age' => $entity->getProperty("Age")->getValue(),
                              'address' => $entity->getProperty("Address")->getValue(),
@@ -45,7 +45,8 @@ class Vehicles_model extends CI_Model {
                              'height' => $entity->getProperty("Height")->getValue(),
                              'occupation' => $entity->getProperty("Occupation")->getValue(),
                              'weight' => $entity->getProperty("Weightinllbs")->getValue(),
-                             'id' => $entity->getProperty("idNumber")->getValue()
+                             'id' => $entity->getProperty("idNumber")->getValue(),
+                             'image' => $entity->getProperty("ImageFile")->getValue()
                              //Need to add permit expiry date and Image
                             );
             }
@@ -71,7 +72,8 @@ class Vehicles_model extends CI_Model {
                              'occupation' => $entity->getProperty("Occupation")->getValue(),
                              'weight' => $entity->getProperty("Weightinllbs")->getValue(),
                              'cchp' => $entity->getProperty("ccHP")->getValue(),
-                             'id' => $entity->getProperty("idNumber")->getValue()
+                             'id' => $entity->getProperty("idNumber")->getValue(),
+                             'image' => $entity->getProperty("ImageFile")->getValue()
                             );
             }
 
@@ -101,11 +103,12 @@ class Vehicles_model extends CI_Model {
                              'transmission' => $entity->getProperty("Transmission")->getValue(),
                              'weight' => $entity->getProperty("Weightinllbs")->getValue(),
                              'cchp' => $entity->getProperty("ccHP")->getValue(),
-                             'id' => $entity->getProperty("idNumber")->getValue()
+                             'id' => $entity->getProperty("idNumber")->getValue(),
+                             'image' => $entity->getProperty("ImageFile")->getValue()
                             );
             }
 
-            if(strcmp($usertype, "Security") === 0) {*/
+            if(strcmp($usertype, "Security") === 0) {
                 $arr = array('chassisno' => $entity->getProperty("ChassisNumber")->getValue(),
                              'color' => $entity->getProperty("Color")->getValue(),
                              'make' => $entity->getProperty("Make")->getValue(),
@@ -138,9 +141,10 @@ class Vehicles_model extends CI_Model {
                              'transmission' => $entity->getProperty("Transmission")->getValue(),
                              'weight' => $entity->getProperty("Weightinllbs")->getValue(),
                              'cchp' => $entity->getProperty("ccHP")->getValue(),
-                             'id' => $entity->getProperty("idNumber")->getValue()
+                             'id' => $entity->getProperty("idNumber")->getValue(),
+                             'image' => $entity->getProperty("ImageFile")->getValue()
                             );
-           // }
+            }
             
         //return $result->getEntity()->getProperty("Color")->getValue();
 		//return $entity->getPartitionKey();
